@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.6 < 0.9.0;
+pragma solidity ^0.8.0;
 
 interface AggregatorV3Interface {
   function decimals() external view returns (uint8);
@@ -32,17 +32,4 @@ interface AggregatorV3Interface {
       uint256 updatedAt,
       uint80 answeredInRound
     );
-}
-contract FundMe {
-
-    mapping(address => uint256) public addressToAmountFunded;
-    
-    function fund() public payable {
-        addressToAmountFunded[msg.sender] += msg.value;
-        // what ETH -> USD conversion rate is?
-    }
-
-    function getVersion public view returns (uint256){
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
-    }
 }
