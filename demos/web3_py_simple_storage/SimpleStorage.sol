@@ -1,7 +1,6 @@
 pragma solidity ^0.6.0;
 
 contract SimpleStorage {
-    // external, public, internal, private
     // this will get initialized to 0!
     uint256 favoriteNumber;
     bool favoriteBool;
