@@ -1,6 +1,7 @@
 from solcx import compile_standard, install_solc
 import json
 from web3 import Web3
+import os
 
 with open("./SimpleStorage.sol", "r") as file:
     simple_storage_file = file.read()
@@ -22,7 +23,7 @@ compiled_sol = compile_standard(
 with open("compiled_code.json", "w") as file:
     json.dump(compiled_sol, file)
 
-# deploying
+# deploying:
 # get bytecode
 bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"][
     "bytecode"
@@ -36,14 +37,15 @@ w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
 chain_id = 1337
 my_address = "0xB2E9526ECc7343260c9E2B5bdF5c7DAe1193C257"
 # make sure to always include the "0x" in the front
-private_key = "0x6ec079b0396acfacebeb75452788e7ec995ec4c06ff8d8f26438a00f141e2f16"
+private_key = os.getenv("PRIVATE_KEY")
+print(private_key)
 
-# create the contract in puthon
+# create the contract in python
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 # get latest transaction
-
 nonce = w3.eth.getTransactionCount(my_address)
+print(nonce)
 
 # 1.build transaction
 # 2. sign the transaction
@@ -51,4 +53,6 @@ nonce = w3.eth.getTransactionCount(my_address)
 transaction = SimpleStorage.constructor().buildTransaction(
     {"chainId": chain_id, "from": my_address, "nonce": nonce}
 )
-print(transaction)
+
+signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
+# environment variables

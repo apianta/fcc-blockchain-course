@@ -1,2 +1,4 @@
 *.json
 fcc-blockchain.code-workspace
+demos/web3_py_simple_storage/.env
+.env
