@@ -64,4 +64,32 @@ transaction = SimpleStorage.constructor().buildTransaction(
 
 signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
 print(signed_txn)
-# environment variables
+
+print("Deploying contract...")
+tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+print("Deployed!")
+
+# contract address
+simple_storage = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
+
+# call -> simulate making the call and getting a return value
+# transact -> actually make a state change
+print("Updating contract...")
+store_transaction = simple_storage.functions.store(15).buildTransaction(
+    {
+        "gasPrice": w3.eth.gas_price,
+        "chainId": chain_id,
+        "from": my_address,
+        "nonce": nonce + 1,
+    }
+)
+
+signed_store_txn = w3.eth.account.sign_transaction(
+    store_transaction, private_key=private_key
+)
+
+send_store_tx = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
+tx_receipt = w3.eth.wait_for_transaction_receipt(send_store_tx)
+print("Updated!")
+# print(simple_storage.functions.retrieve().call())
