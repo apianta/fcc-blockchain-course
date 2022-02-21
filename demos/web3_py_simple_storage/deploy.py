@@ -35,9 +35,9 @@ bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"
 # get abi
 abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
 
-# connecting to Ganache
-w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
-chain_id = 1337
+# connecting to kovan
+w3 = Web3(Web3.HTTPProvider("https://kovan.infura.io/v3/ca8858ba10294787a4f4f3e73ee39986"))
+chain_id = 42
 my_address = os.getenv("MY_ADDRESS")
 # make sure to always include the "0x" in the front
 private_key = os.getenv("PRIVATE_KEY")
@@ -92,4 +92,4 @@ signed_store_txn = w3.eth.account.sign_transaction(
 send_store_tx = w3.eth.send_raw_transaction(signed_store_txn.rawTransaction)
 tx_receipt = w3.eth.wait_for_transaction_receipt(send_store_tx)
 print("Updated!")
-# print(simple_storage.functions.retrieve().call())
+print(simple_storage.functions.retrieve().call())
