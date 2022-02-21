@@ -2,3 +2,7 @@
 fcc-blockchain.code-workspace
 demos/web3_py_simple_storage/.env
 .env
+node_modules
+yarn.lock
+demos/web3_py_simple_storage/Pipfile
+demos/web3_py_simple_storage/Pipfile.lock
