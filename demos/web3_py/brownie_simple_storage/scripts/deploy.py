@@ -19,6 +19,6 @@ def getAccount():
     else:
         return accounts.add(config["wallets"]["from_key"])
 
-
+# 0x66aB6D9362d4F35596279692F0251Db635165871
 def main():
     deploy_simple_storage()

@@ -5,6 +5,7 @@ def read_contract():
     # take the indec thats one less that the length
     # abi
     # address
+    print(simple_storage.retrieve())
 
 def main():
     read_contract()
