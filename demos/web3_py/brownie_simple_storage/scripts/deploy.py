@@ -1,4 +1,3 @@
-from ast import Import
 from brownie import accounts, config, SimpleStorage
 
 
