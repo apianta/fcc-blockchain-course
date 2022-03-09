@@ -8,6 +8,9 @@ compiler:
   dotenv: .env
   networks:
     kovan:
-      eth_usd_price_feed: "0x9aEF256F1c4b4542afC6baa2fd32210b28B2f85f"
+      eth_usd_price_feed: "0x504bebA34f5541cE408BF93AbF5522c873a770EA"
+      verify: True
+    development:
+      verify: False
   wallets:
     from_key: ${PRIVATE_KEY}
