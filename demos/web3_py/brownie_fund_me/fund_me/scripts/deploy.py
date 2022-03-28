@@ -8,7 +8,7 @@ def deploy_fund_me():
     # pass pricefeed address to our fundme contract
 
     # if we are on persistent network, use the associated address, otherwise deploy mocks
-    if network.show_actice() != "development":
+    if network.show_active() != "development":
         price_feed_address = config["networks"][network.show_active()][
             "eth_usd_price_feed"
         ]
