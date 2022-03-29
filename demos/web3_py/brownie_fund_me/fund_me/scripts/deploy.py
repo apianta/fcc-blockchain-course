@@ -8,10 +8,7 @@ from scripts.helpful_scripts import (
 
 def deploy_fund_me():
     account = get_account()
-    # pass pricefeed address to our fundme contract
-
-    # if we are on persistent network, use the associated address, otherwise deploy mocks
-    if network.show_active() != "development":
+    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         price_feed_address = config["networks"][network.show_active()][
             "eth_usd_price_feed"
         ]
