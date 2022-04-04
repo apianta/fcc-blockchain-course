@@ -1,11 +1,13 @@
 pragma solidity ^0.6.6;
 
 contract Lottery {
-    function enter() public {}
+    address payable[] public players;
+
+    function enter() public payable {}
 
     function getEntranceFee() public {}
 
     function startLottery() public {}
 
-    function enfLottery() public {}
+    function endLottery() public {}
 }
