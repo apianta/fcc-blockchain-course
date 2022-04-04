@@ -8,3 +8,4 @@ demos/web3_py_simple_storage/Pipfile
 demos/web3_py_simple_storage/Pipfile.lock
 brownie-env
 .DS_Store
+venv
