@@ -4,7 +4,7 @@ from scripts.helpful_scripts import (
     fund_with_link,
     get_contract,
 )
-from brownie import Lottery, accounts, config, network, exceptions
+from brownie import exceptions, network
 from scripts.deploy_lottery import deploy_lottery
 from web3 import Web3
 import pytest
