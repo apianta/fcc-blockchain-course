@@ -1,6 +1,15 @@
-from brownie import config,network,accounts
+from brownie import config, network, accounts
 
-def get_account(index=None,id=None):
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
+    "development",
+    "ganache",
+    "hardhat",
+    "local-ganache",
+    "mainnet-fork",
+]
+
+
+def get_account(index=None, id=None):
     if index:
         return accounts[index]
     if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
