@@ -3,4 +3,4 @@ dependencies:
 compiler:
   solc:
     remappings:
-      - "@openzeppelin/contracts/token/ERC721/ERC721.sol"
+      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@3.4.0"
