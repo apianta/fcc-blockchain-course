@@ -23,7 +23,25 @@ def main():
     tx.wait(1)
     print("Deposited!")
     # ...how much?
-    borrowable_eth, total_debt_eth = get_borrowable_data(lending_pool, account)
+    borrowable_eth, total_debt = get_borrowable_data(lending_pool, account)
+    print("Let's borrow!")
+    # DAI in terms of ETH
+    dai_eth_price = get_asset_price(
+        config["networks"][network.show_active()]["dai_eth_price_feed"]
+    )
+    amount_dai_to_borrow = (1 / dai_eth_price) * (borrowable_eth * 0.95)
+    # borrowable_eth -> borrowable_dai
+
+
+def get_asset_price(price_feed_address):
+    # ABI
+    # ADDRESS
+    dai_eth_price_feed = interface.AggregatorV3Interface(price_feed_address)
+    latest_price = dai_eth_price_feed.latestRoundData()[1]
+    converted_latest_price = Web3.fromWei(latest_price, "ether")
+    print(f"The latest DAI/ETH price: {converted_latest_price}")
+    return float(converted_latest_price)
+    # 324053980000000
 
 
 def get_borrowable_data(lending_pool, account):
