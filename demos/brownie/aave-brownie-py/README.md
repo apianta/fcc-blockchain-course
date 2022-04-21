@@ -7,3 +7,8 @@
 TESTING:
 Integration test: Kovan
 Units tests: Mainnet-fork
+
+Notes:
+
+- Approve the ERC-20 token using the approve() function.
+

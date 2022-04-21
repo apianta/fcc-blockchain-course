@@ -6,6 +6,7 @@ compiler:
       - "@aave=aave/protocol-v2@1.0.1"
 dotenv: .env
 networks:
+  default: mainnet-fork
   kovan:
     weth_token: "0x87b1f4cf9bd63f7bbd3ee1ad04e8f52540349347"
     lending_pool_addresses_provider: "0x88757f2f99175387ab4c6a4b3067c77a695b0349"
