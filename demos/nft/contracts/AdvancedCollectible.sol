@@ -15,6 +15,8 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
     }
     mapping(uint256 => Breed) public tokenIdToBreed;
     mapping(bytes32 => address) public requestIdToSender;
+    event requestedCollectible(bytes32 indexed requestId, address requester);
+    event breedAssigned(uint256 indexed tokenId, Breed breed);
 
     constructor(
         address _vrfCoordinator,
@@ -34,6 +36,7 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
     function createCollectible() public returns (bytes32) {
         bytes32 requestId = requestRandomness(keyhash, fee);
         requestIdToSender[requestId] = msg.sender;
+        emit requestedCollectible(requestId, msg.sender);
     }
 
     function fulfillRandomness(bytes32 requestId, uint256 randomNumber)
@@ -43,6 +46,7 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
         Breed breed = Breed(randomNumber % 3);
         uint256 newTokenId = tokenCounter;
         tokenIdToBreed[newTokenId] = breed;
+        emit breedAssigned(newTokenId, breed);
         address owner = requestIdToSender[requestId];
         _safeMint(owner, newTokenId);
         // _setTokenURI(newTokenId,tokenURI);
