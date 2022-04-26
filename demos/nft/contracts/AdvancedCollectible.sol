@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.6.6;
+pragma solidity >=0.5.0 <0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@chainlink/contract/src/v0.6/VRFConsumerBase.sol";
+import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
 contract AdvancedCollectible is ERC721, VRFConsumerBase {
     uint256 tokenCounter;
@@ -14,13 +14,13 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
         ST_BERNARD
     }
     mapping(uint256 => Breed) public tokenIdToBreed;
-    mapping(bytes32 => address) public requestIdtoSender;
+    mapping(bytes32 => address) public requestIdToSender;
 
     constructor(
-        address _VRFCoordinator,
+        address _vrfCoordinator,
         address _linkToken,
         bytes32 _keyhash,
-        uint256 fee
+        uint256 _fee
     )
         public
         VRFConsumerBase(_vrfCoordinator, _linkToken)
@@ -31,10 +31,7 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
         fee = _fee;
     }
 
-    function createCollectible(string memory tokenURI)
-        public
-        returns (bytes32)
-    {
+    function createCollectible() public returns (bytes32) {
         bytes32 requestId = requestRandomness(keyhash, fee);
         requestIdToSender[requestId] = msg.sender;
     }
@@ -50,5 +47,13 @@ contract AdvancedCollectible is ERC721, VRFConsumerBase {
         _safeMint(owner, newTokenId);
         // _setTokenURI(newTokenId,tokenURI);
         tokenCounter = tokenCounter + 1;
+    }
+
+    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "ERC721: caller is not owner nor approved"
+        );
+        _setTokenURI(tokenId, _tokenURI);
     }
 }
