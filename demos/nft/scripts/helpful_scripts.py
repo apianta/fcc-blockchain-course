@@ -1,5 +1,5 @@
-from os import access
-from brownie import accounts, network, config
+from brownie import accounts, network, config, LinkToken, VRFCoordinatorMock, Contract
+from web3 import Web3
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
     "development",
@@ -19,6 +19,9 @@ def get_account(index=None, id=None):
     if id:
         return accounts.load(id)
     return accounts.add(config["wallets"]["from_key"])
+
+
+contract_to_mock = {"link_token": LinkToken, "vrf_coordinator": VRFCoordinatorMock}
 
 
 def get_contract(contract_name):
@@ -63,3 +66,14 @@ def deploy_mocks():
     vrf_coordinator = VRFCoordinatorMock.deploy(link_token.address, {"from": account})
     print(f"VRFCoordinator deployed to {vrf_coordinator.address}")
     print("All done!")
+
+
+def fund_with_link(
+    contract_address, account=None, link_token=None, amount=Web3.toWei(0.3, "ether")
+):
+    account = account if account else get_account()
+    link_token = link_token if link_token else get_contract("link_token")
+    funding_tx = link_token.transfer(contract_address, amount, {"from": account})
+    funding_tx.wait(1)
+    print(f"Funded {contract_address}")
+    return funding_tx
