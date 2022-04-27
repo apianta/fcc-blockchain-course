@@ -28,8 +28,8 @@ def test_can_create_advanced_collectible():
     assert advanced_collectible.tokenIdToBreed(0) == random_number % 3
 
 
-# def test_get_breed():
-#     # Arrange / Act
-#     breed = get_breed(0)
-#     # Assert
-#     assert breed == "PUG"
+def test_get_breed():
+    # Arrange / Act
+    breed = get_breed(0)
+    # Assert
+    assert breed == "PUG"
