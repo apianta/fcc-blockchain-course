@@ -10,3 +10,5 @@ brownie-env
 .DS_Store
 venv
 fcc-blockchain-course.code-workspace
+demos/nft/go-ipfs_v0.12.2_darwin-amd64.tar.gz
+demos/nft/go-ipfs/install.sh
