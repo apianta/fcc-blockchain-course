@@ -33,4 +33,10 @@ def upload_to_ipfs(filepath):
         image_biary = fp.read()
         ipfs_url = "http://127.0.0.1:5001/"
         endpoint = "/api/v0/add"
-        reponse=requests.pot(ipfs_url+endpoint,files="file":image_binary)
+        reponse = requests.pot(ipfs_url + endpoint, files={"file": image_binary})
+        ipfs_hash = response.json()["Hash"]
+        # ""./img/PUG.png" -> "PUG.png"
+        filename = filepath.split("/")[-1][0]
+        image_uri = f"https://ipfs.io/ipfs/{ipfs_hash}?filename={filename}"
+        print(image_uri)
+        return image_uri
