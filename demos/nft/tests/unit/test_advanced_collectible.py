@@ -1,4 +1,4 @@
-from brownie import network, AdvancedCollectible
+from brownie import network
 import pytest
 from scripts.helpful_scripts import (
     LOCAL_BLOCKCHAIN_ENVIRONMENTS,
