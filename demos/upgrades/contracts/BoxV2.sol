@@ -18,6 +18,6 @@ contract BoxV2 {
 
     function increment() public {
         value = value + 1;
-        emit valueChanged(value);
+        emit ValueChanged(value);
     }
 }
