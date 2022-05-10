@@ -1,84 +1,76 @@
-from brownie import accounts, network, config, LinkToken, VRFCoordinatorMock, Contract
-from web3 import Web3
+from brownie import network, accounts, config
+import eth_utils
 
-LOCAL_BLOCKCHAIN_ENVIRONMENTS = [
-    "development",
-    "ganache",
-    "hardhat",
-    "local-ganache",
+NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
+LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
     "mainnet-fork",
+    "binance-fork",
+    "matic-fork",
 ]
-OPENSEA_URL = "https://testnets.opensea.io/assets/{}/{}"
-BREED_MAPPING = {0: "PUG", 1: "SHIBA_INU", 2: "ST_BERNARD"}
 
 
-def get_breed(breed_number):
-    return BREED_MAPPING[breed_number]
-
-
-def get_account(index=None, id=None):
-    if index:
-        return accounts[index]
+def get_account(number=None):
     if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         return accounts[0]
-    if id:
-        return accounts.load(id)
-    return accounts.add(config["wallets"]["from_key"])
+    if number:
+        return accounts[number]
+    if network.show_active() in config["networks"]:
+        account = accounts.add(config["wallets"]["from_key"])
+        return account
+    return None
 
 
-contract_to_mock = {"link_token": LinkToken, "vrf_coordinator": VRFCoordinatorMock}
+def encode_function_data(initializer=None, *args):
+    """Encodes the function call so we can work with an initializer.
 
-
-def get_contract(contract_name):
-    """
-    This function will either:
-        - Get an address from the config
-        - Or deploy a Mock to use for a network that doesn't have the contract
     Args:
-        contract_name (string): This is the name of the contract that we will get
-        from the config or deploy
+        initializer ([brownie.network.contract.ContractTx], optional):
+        The initializer function we want to call. Example: `box.store`.
+        Defaults to None.
+
+        args (Any, optional):
+        The arguments to pass to the initializer function
+
     Returns:
-        brownie.network.contract.ProjectContract: This is the most recently deployed
-        Contract of the type specified by a dictionary. This could either be a mock
-        or a 'real' contract on a live network.
+        [bytes]: Return the encoded bytes.
     """
-    # link_token
-    # LinkToken
-    contract_type = contract_to_mock[contract_name]
-    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
-        if len(contract_type) <= 0:
-            deploy_mocks()
-        contract = contract_type[-1]
-    else:
-        contract_address = config["networks"][network.show_active()][contract_name]
-        contract = Contract.from_abi(
-            contract_type._name, contract_address, contract_type.abi
-        )
-    return contract
+    if not len(args):
+        args = b""
+
+    if initializer:
+        return initializer.encode_input(*args)
+
+    return b""
 
 
-def deploy_mocks():
-    """
-    Use this script if you want to deploy mocks to a testnet
-    """
-    print(f"The active network is {network.show_active()}")
-    print("Deploying mocks...")
-    account = get_account()
-    print("Deploying Mock LinkToken...")
-    link_token = LinkToken.deploy({"from": account})
-    print(f"Link Token deployed to {link_token.address}")
-    print("Deploying Mock VRF Coordinator...")
-    vrf_coordinator = VRFCoordinatorMock.deploy(link_token.address, {"from": account})
-    print(f"VRFCoordinator deployed to {vrf_coordinator.address}")
-    print("All done!")
-
-
-def fund_with_link(
-    contract_address, account=None, link_token=None, amount=Web3.toWei(0.3, "ether")
+def upgrade(
+    account,
+    proxy,
+    newimplementation_address,
+    proxy_admin_contract=None,
+    initializer=None,
+    *args
 ):
-    account = account if account else get_account()
-    link_token = link_token if link_token else get_contract("link_token")
-    funding_tx = link_token.transfer(contract_address, amount, {"from": account})
-    funding_tx.wait(1)
-    print(f"Funded {contract_address}")
-    return funding_tx
+    transaction = None
+    if proxy_admin_contract:
+        if initializer:
+            encoded_function_call = encode_function_data(initializer, *args)
+            transaction = proxy_admin_contract.upgradeAndCall(
+                proxy.address,
+                newimplementation_address,
+                encoded_function_call,
+                {"from": account},
+            )
+        else:
+            transaction = proxy_admin_contract.upgrade(
+                proxy.address, newimplementation_address, {"from": account}
+            )
+    else:
+        if initializer:
+            encoded_function_call = encode_function_data(initializer, *args)
+            transaction = proxy.upgradeToAndCall(
+                newimplementation_address, encoded_function_call, {"from": account}
+            )
+        else:
+            transaction = proxy.upgradeTo(newimplementation_address, {"from": account})
+    return transaction
