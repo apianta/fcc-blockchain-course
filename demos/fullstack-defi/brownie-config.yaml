@@ -1,5 +1,5 @@
 dependencies:
-  - Openzeppelin/openzeppelin-contract@4.2.0
+  - Openzeppelin/openzeppelin-contracts@4.2.0
 compiler:
   solc:
     remappings:
