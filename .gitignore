@@ -15,3 +15,4 @@ demos/nft/go-ipfs/install.sh
 demos/nft/workspace.code-workspace
 demos/fullstack-defi/scripts/__pycache__/__init__.cpython-310.pyc
 demos/fullstack-defi/scripts/__pycache__/deploy.cpython-310.pyc
+demos/fullstack-defi/tests/unit/__pycache__/test_token_farm.cpython-310-pytest-6.2.5.pyc
