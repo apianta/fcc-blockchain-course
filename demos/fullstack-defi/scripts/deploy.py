@@ -2,7 +2,7 @@ from scripts.helpful_scripts import get_account, get_contract
 from brownie import DappToken, TokenFarm, network, config
 from web3 import Web3
 
-KEPT_BALANCE = Web3.toWei(100, "ether")
+KEPT_BALANCE = Web3.toWei(1, "ether")
 
 
 def deploy_token_farm_and_dapp_token():
@@ -43,3 +43,7 @@ def add_allowed_tokens(token_farm, dict_of_allowed_tokens, account):
 
 def main():
     deploy_token_farm_and_dapp_token()
+
+
+# -99000000000000000000
+# -999000000000000000000
