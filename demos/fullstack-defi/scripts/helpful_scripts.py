@@ -1,15 +1,16 @@
+from web3 import Web3
+import time
 from brownie import (
     network,
     accounts,
     config,
     LinkToken,
     MockV3Aggregator,
-    MockOracle,
-    VRFCoordinatorV2Mock,
+    MockWETH,
+    MockDAI,
     Contract,
-    web3,
 )
-import time
+
 
 NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS + [
@@ -24,14 +25,14 @@ BLOCK_CONFIRMATIONS_FOR_VERIFICATION = (
 )
 
 contract_to_mock = {
-    "link_token": LinkToken,
     "eth_usd_price_feed": MockV3Aggregator,
-    "vrf_coordinator": VRFCoordinatorV2Mock,
-    "oracle": MockOracle,
+    "dai_usd_price_feed": MockV3Aggregator,
+    "fau_token": MockDAI,
+    "weth_token": MockWETH,
 }
 
 DECIMALS = 18
-INITIAL_VALUE = web3.toWei(2000, "ether")
+INITIAL_VALUE = Web3.toWei(2000, "ether")
 BASE_FEE = 100000000000000000  # The premium
 GAS_PRICE_LINK = 1e9  # Some value calculated depending on the Layer 1 cost and Link
 
@@ -116,16 +117,12 @@ def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
         decimals, initial_value, {"from": account}
     )
     print(f"Deployed to {mock_price_feed.address}")
-    print("Deploying Mock VRFCoordinator...")
-    mock_vrf_coordinator = VRFCoordinatorV2Mock.deploy(
-        BASE_FEE, GAS_PRICE_LINK, {"from": account}
-    )
-    print(f"Deployed to {mock_vrf_coordinator.address}")
-
-    print("Deploying Mock Oracle...")
-    mock_oracle = MockOracle.deploy(link_token.address, {"from": account})
-    print(f"Deployed to {mock_oracle.address}")
-    print("Mocks Deployed!")
+    print("Deploying Mock DAI...")
+    dai_token = MockDAI.deploy({"from": account})
+    print(f"Deployed to {dai_token.address}")
+    print("Deploying Mock WETH")
+    weth_token = MockWETH.deploy({"from": account})
+    print(f"Deployed to {weth_token.address}")
 
 
 def listen_for_event(brownie_contract, event, timeout=200, poll_interval=2):
@@ -144,12 +141,12 @@ def listen_for_event(brownie_contract, event, timeout=200, poll_interval=2):
         poll_interval ([int]): How often to call your node to check for events.
         Defaults to 2 seconds.
     """
-    web3_contract = web3.eth.contract(
+    web3_contract = Web3.eth.contract(
         address=brownie_contract.address, abi=brownie_contract.abi
     )
     start_time = time.time()
     current_time = time.time()
-    event_filter = web3_contract.events[event].createFilter(fromBlock="latest")
+    event_filter = Web3.events[event].createFilter(fromBlock="latest")
     while current_time - start_time < timeout:
         for event_response in event_filter.get_new_entries():
             if event in event_response.event:
