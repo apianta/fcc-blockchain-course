@@ -1,6 +1,6 @@
 *.json
-fcc-blockchain.code-workspace
-demos/web3_py_simple_storage/.env
+*.code-workspace
+*.pyc
 .env
 node_modules
 yarn.lock
@@ -9,10 +9,9 @@ demos/web3_py_simple_storage/Pipfile.lock
 brownie-env
 .DS_Store
 venv
-fcc-blockchain-course.code-workspace
-demos/nft/go-ipfs_v0.12.2_darwin-amd64.tar.gz
-demos/nft/go-ipfs/install.sh
-demos/nft/workspace.code-workspace
 demos/fullstack-defi/scripts/__pycache__/__init__.cpython-310.pyc
 demos/fullstack-defi/scripts/__pycache__/deploy.cpython-310.pyc
 demos/fullstack-defi/tests/unit/__pycache__/test_token_farm.cpython-310-pytest-6.2.5.pyc
+demos/nft/go-ipfs_v0.12.2_darwin-amd64.tar.gz
+demos/fullstack-defi/scripts/__pycache__/helpful_scripts.cpython-310.pyc
+.pyc
