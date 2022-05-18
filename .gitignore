@@ -13,3 +13,5 @@ fcc-blockchain-course.code-workspace
 demos/nft/go-ipfs_v0.12.2_darwin-amd64.tar.gz
 demos/nft/go-ipfs/install.sh
 demos/nft/workspace.code-workspace
+demos/fullstack-defi/scripts/__pycache__/__init__.cpython-310.pyc
+demos/fullstack-defi/scripts/__pycache__/deploy.cpython-310.pyc
