@@ -33,7 +33,7 @@ contract TokenFarm is Ownable {
     }
 
     function issueTokens() public onlyOwner {
-        // issue tokens to all stakers
+        // Issue tokens to all stakers
         for (
             uint256 stakersIndex = 0;
             stakersIndex < stakers.length;
@@ -42,8 +42,6 @@ contract TokenFarm is Ownable {
             address recipient = stakers[stakersIndex];
             uint256 userTotalValue = getUserTotalValue(recipient);
             dappToken.transfer(recipient, userTotalValue);
-            // send them a token reward
-            // based on their total value locked
         }
     }
 
