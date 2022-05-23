@@ -48,3 +48,11 @@ yarn-error.log*
 
 demos/fullstack-defi/front_end/.yarnrc.yml
 demos/fullstack-defi/front_end/.yarn/releases/yarn-3.2.1.cjs
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
