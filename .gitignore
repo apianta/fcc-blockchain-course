@@ -19,3 +19,32 @@ demos/fullstack-defi/tests/unit/__pycache__/test_token_farm.cpython-310-pytest-6
 demos/nft/go-ipfs/install.sh
 demos/fullstack-defi/scripts/__pycache__/helpful_scripts.cpython-310.pyc
 demos/fullstack-defi/tests/__pycache__/conftest.cpython-310-pytest-6.2.5.pyc
+
+# yarn/react
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+demos/fullstack-defi/front_end/.yarnrc.yml
+demos/fullstack-defi/front_end/.yarn/releases/yarn-3.2.1.cjs
