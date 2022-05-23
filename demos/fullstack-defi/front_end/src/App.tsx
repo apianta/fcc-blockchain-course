@@ -1,7 +1,9 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+// import "./App.css";
 import { ChainId, DAppProvider } from "@usedapp/core";
+import { Header } from "./components/Header";
+import { Container } from "@material-ui/core";
+import { Main } from "./components/Main"
 
 function App() {
   return (
@@ -10,7 +12,11 @@ function App() {
         supportedChains: [ChainId.Kovan, ChainId.Rinkeby],
       }}
     >
-      <div>Hi!</div>
+      <Header />
+      <Container maxWidth="md">
+        <div>Hi!</div>
+        <Main />
+      </Container>
     </DAppProvider>
   );
 }
