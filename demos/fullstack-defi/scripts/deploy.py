@@ -50,11 +50,11 @@ def add_allowed_tokens(token_farm, dict_of_allowed_tokens, account):
 
 def update_frontend():
     # send the build folder:
-    copy_folders_to_frontend("./build", "./front_end/src/chain-info")
+    copy_folders_to_frontend("./build", "./frontend/src/chain-info")
     # send the frontend our config json:
     with open("brownie-config.yaml", "r") as brownie_config:
         config_dict = yaml.load(brownie_config, Loader=yaml.FullLoader)
-        with open("./front_end/src/brownie-config.json", "w") as brownie_config_json:
+        with open("./frontend/src/brownie-config.json", "w") as brownie_config_json:
             json.dump(config_dict, brownie_config_json)
 
 
