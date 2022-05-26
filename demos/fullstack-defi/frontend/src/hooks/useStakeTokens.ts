@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { useContractFunction, useEthers } from "@usedapp/core"
-import TokenFarm from "../chain-info/contracts/TokenFarm.json"
-import networkMapping from "../chain-info/deployments/map.json"
-import { Contract } from "@ethersproject/contracts"
-import ERC20 from "../chain-info/contracts/MockERC20.json"
+import { useEthers, useContractFunction } from "@usedapp/core"
 import { constants, utils } from "ethers"
+import TokenFarm from "../chain-info/contracts/TokenFarm.json"
+import ERC20 from "../chain-info/contracts/MockERC20.json"
+import { Contract } from "@ethersproject/contracts"
+import networkMapping from "../chain-info/deployments/map.json"
 
 export const useStakeTokens = (tokenAddress: string) => {
 	// address
@@ -34,18 +34,22 @@ export const useStakeTokens = (tokenAddress: string) => {
 	const { send: stakeSend, state: stakeState } = useContractFunction(
 		tokenFarmContract,
 		"stakeTokens",
-		{ transactionName: "Stake Tokens" }
+		{
+			transactionName: "Stake Tokens",
+		}
 	)
 	const [amountToStake, setAmountToStake] = useState("0")
 
-	// useEffect
+	//useEffect
 	useEffect(() => {
 		if (approveAndStakeErc20State.status === "Success") {
 			stakeSend(amountToStake, tokenAddress)
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [approveAndStakeErc20State, amountToStake, tokenAddress])
 
 	const [state, setState] = useState(approveAndStakeErc20State)
+
 	useEffect(() => {
 		if (approveAndStakeErc20State.status === "Success") {
 			setState(stakeState)
