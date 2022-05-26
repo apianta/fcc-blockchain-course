@@ -1,5 +1,4 @@
 import React from "react"
-// import "./App.css";
 import { Kovan, DAppProvider } from "@usedapp/core"
 import { Header } from "./components/Header"
 import { Container } from "@material-ui/core"
