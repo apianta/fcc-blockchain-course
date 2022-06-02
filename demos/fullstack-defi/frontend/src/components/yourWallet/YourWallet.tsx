@@ -1,7 +1,7 @@
 import { Token } from "../Main";
 import React, { useState } from "react";
 import { Box, makeStyles } from "@material-ui/core";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 import { Tab } from "@material-ui/core";
 import { WalletBalance } from "./WalletBalance";
 import { StakeForm } from "./StakeForm";
